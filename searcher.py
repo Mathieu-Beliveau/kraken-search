@@ -7,6 +7,7 @@ from search_match import SearchMatch
 
 class Searcher:
     page_match = re.compile(r".*\.pdf\_(.*)")
+
     def __init__(self, text_path: Path, pattern: Pattern):
         self.text_path = text_path
         self.matches = []
