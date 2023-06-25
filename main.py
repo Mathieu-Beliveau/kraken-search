@@ -49,10 +49,10 @@ def is_processed(input_path: Path) -> bool:
 
 if __name__ == '__main__':
     argparse = ArgumentParser()
-    argparse.add_argument("-s", "--search", )
+    argparse.add_argument("-s", "--search")
+    argparse.add_argument("-c", "--corpus")
     args = argparse.parse_args()
-    search_string = args.search.replace('\\\\', '\\')
     sys.path.insert(0, '~/.local/bin')
-    base_path = Path(CORPUS_LOCATION)
-    process_dirs_for_ocr(base_path, re.compile(search_string))
+    base_path = Path(args.corpus)
+    process_dirs_for_ocr(base_path, re.compile(args.search))
 
