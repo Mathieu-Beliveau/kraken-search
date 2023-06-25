@@ -1,4 +1,8 @@
 import concurrent.futures
+import re
+from argparse import ArgumentParser
+from re import Pattern
+
 from tabulate import tabulate
 import sys
 from pathlib import Path
@@ -13,14 +17,14 @@ EXCEPTION_FILENAME = "exception"
 results: list[Searcher] = []
 
 
-def process_dirs_for_ocr(corpus_path: Path, pattern: str):
+def process_dirs_for_ocr(corpus_path: Path, pattern: Pattern):
     folders = get_folders_to_process(corpus_path)
     with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
         executor.map(lambda folder: search(folder, pattern), folders)
     display_results()
 
 
-def search(folder: Path, pattern: str):
+def search(folder: Path, pattern: Pattern):
     searcher = Searcher(folder, pattern)
     searcher.search_regex()
     results.append(searcher)
@@ -44,7 +48,11 @@ def is_processed(input_path: Path) -> bool:
 
 
 if __name__ == '__main__':
+    argparse = ArgumentParser()
+    argparse.add_argument("-s", "--search", )
+    args = argparse.parse_args()
+    search_string = args.search.replace('\\\\', '\\')
     sys.path.insert(0, '~/.local/bin')
     base_path = Path(CORPUS_LOCATION)
-    process_dirs_for_ocr(base_path, r"\s(sit)\s")
+    process_dirs_for_ocr(base_path, re.compile(search_string))
 

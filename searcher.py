@@ -1,12 +1,13 @@
 import re
 from pathlib import Path
+from re import Pattern
 
 from search_match import SearchMatch
 
 
 class Searcher:
 
-    def __init__(self, text_path: Path, pattern: str):
+    def __init__(self, text_path: Path, pattern: Pattern):
         self.matches = []
         self.matches_count = 0
         self.txt_file = self.__get_txt(text_path)
