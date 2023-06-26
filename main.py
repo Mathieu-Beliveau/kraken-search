@@ -39,7 +39,7 @@ def display_results():
 
 
 def get_folders_to_process(corpus_path: Path) -> list[Path]:
-    return list(filter(lambda sub_path: sub_path.is_dir() and is_processed(sub_path), corpus_path.iterdir()))
+    return list(filter(lambda sub_path: sub_path.is_dir(), corpus_path.iterdir()))
 
 
 def is_processed(input_path: Path) -> bool:
