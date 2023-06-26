@@ -20,7 +20,7 @@ class Searcher:
 
     def print_matches(self) -> str:
         res = ""
-        sorted_matches = sorted(self.matches, key=lambda elm: elm.occurrences, reverse=True)
+        sorted_matches = sorted(self.matches, key=lambda elm: elm.page, reverse=False)
         for match in sorted_matches:
             res += f"Page: {match.page}, Line: {match.line_number}, count: {match.occurrences}\n"
         return res
