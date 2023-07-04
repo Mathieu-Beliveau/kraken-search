@@ -1,3 +1,4 @@
+import logging
 import re
 from pathlib import Path
 from re import Pattern
@@ -27,22 +28,27 @@ class Searcher:
 
     def search_regex(self):
         files = self.text_path.rglob("*.pdf_*")
+        matcher = r"^[^.].*\.pdf_*"
+        files = list(filter(lambda pdf: re.search(matcher, pdf.name) is not None, files))
         for file in files:
             line_number = 0
             with open(file, "r") as text_file:
                 for line in text_file:
-                    line_number += 1
-                    matches = re.findall(self.pattern, line)
-                    matches_count = len(matches)
-                    if matches_count > 0:
-                        search_match = SearchMatch()
-                        re_page_match = self.page_match.search(file.name)
-                        search_match.page = re_page_match.groups()[0]
-                        search_match.line_number = line_number
-                        search_match.line = line
-                        search_match.occurrences = matches_count
-                        self.matches.append(search_match)
-                        self.matches_count += matches_count
+                    try:
+                        line_number += 1
+                        matches = re.findall(self.pattern, line)
+                        matches_count = len(matches)
+                        if matches_count > 0:
+                            search_match = SearchMatch()
+                            re_page_match = self.page_match.search(file.name)
+                            search_match.page = re_page_match.groups()[0]
+                            search_match.line_number = line_number
+                            search_match.line = line
+                            search_match.occurrences = matches_count
+                            self.matches.append(search_match)
+                            self.matches_count += matches_count
+                    except:
+                        print(f"Could not parse line {line} of file: {file}")
 
     def __get_pdf(self, input_path: Path) -> Path:
         pdf_list = list(input_path.rglob("*.pdf"))
