@@ -21,6 +21,8 @@ def process_dirs_for_ocr(corpus_path: Path, pattern: Pattern):
     folders = get_folders_to_process(corpus_path)
     with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
         executor.map(lambda folder: search(folder, pattern), folders)
+    # for folder in folders:
+    #     search(folder, pattern)
     display_results()
 
 

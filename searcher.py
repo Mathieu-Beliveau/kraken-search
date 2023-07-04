@@ -44,8 +44,10 @@ class Searcher:
                         self.matches.append(search_match)
                         self.matches_count += matches_count
 
-    def __get_pdf(self, text_path: Path) -> Path:
-        pdf_list = list(text_path.rglob("*.pdf"))
+    def __get_pdf(self, input_path: Path) -> Path:
+        pdf_list = list(input_path.rglob("*.pdf"))
+        matcher = r"^[^.].*\.pdf"
+        pdf_list = list(filter(lambda pdf: re.search(matcher, pdf.name) is not None, pdf_list))
         if len(pdf_list) == 1:
             return pdf_list[0]
         else:
