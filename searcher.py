@@ -26,6 +26,7 @@ class Searcher:
         return res
 
     def search_regex(self):
+        print(self.pdf_file.name)
         files = self.text_path.rglob("*.pdf_*")
         for file in files:
             line_number = 0

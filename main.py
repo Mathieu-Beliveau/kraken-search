@@ -25,6 +25,7 @@ def process_dirs_for_ocr(corpus_path: Path, pattern: Pattern):
 
 
 def search(folder: Path, pattern: Pattern):
+    print(folder.name)
     searcher = Searcher(folder, pattern)
     searcher.search_regex()
     results.append(searcher)
